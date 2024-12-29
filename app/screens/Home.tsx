@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {Task} from './models/Task';
-import {TaskManager} from './components/TaskManager';
+import {Task} from '../models/Task';
+import {TaskManager} from '../components/TaskManager';
 
 import {useQuery} from '@realm/react';
 
-export const App = () => {
+export const Home = () => {
   const [showDone, setShowDone] = React.useState(false);
   const tasks = useQuery(
     Task,
