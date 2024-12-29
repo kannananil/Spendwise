@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "Spendwise",
+    "slug": "Spendwise",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.myapps.Spendwise"
+    }
+  }
+}
