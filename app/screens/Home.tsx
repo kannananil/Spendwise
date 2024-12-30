@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import {Task} from '../models/Task';
-import {TaskManager} from '../components/TaskManager';
+import { Task } from "../models/Task";
+import { TaskManager } from "../components/TaskManager";
 
-import {useQuery} from '@realm/react';
+import { useQuery } from "@realm/react";
 
 export const Home = () => {
   const [showDone, setShowDone] = React.useState(false);
   const tasks = useQuery(
     Task,
-    collection =>
+    (collection) =>
       showDone
-        ? collection.sorted('createdAt')
-        : collection.filtered('isComplete == false').sorted('createdAt'),
-    [showDone],
+        ? collection.sorted("createdAt")
+        : collection.filtered("isComplete == false").sorted("createdAt"),
+    [showDone]
   );
 
   return (
