@@ -1,4 +1,4 @@
-import { BSON } from "realm";
+import Realm, { BSON } from "realm";
 
 export class Category extends Realm.Object {
     _id: BSON.ObjectId = new BSON.ObjectId();

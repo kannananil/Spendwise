@@ -1,4 +1,4 @@
-import { BSON } from "realm";
+import Realm, { BSON } from "realm";
 import { Account } from "./Account";
 import { Category } from "./Category";
 import { Subcategory } from "./SubCategory";
@@ -9,10 +9,10 @@ export class Transaction extends Realm.Object {
     type: 'expense' | 'income' | 'transfer' = 'expense';
     amount: number = 0;
     description: string = '';
-    accountId: Account;
-    categoryId: Category;
-    subcategoryId?: Subcategory | null;
-    tags?: Realm.List<Tag>;
+    accountId: {type: 'object', objectType: 'Account'};
+    categoryId: {type: 'object', objectType: 'Category'};
+    subcategoryId?: {type: 'object', objectType: 'Subcategory', optional: true};;
+    tags: Realm.List<Tag>;
     date: Date = new Date();
   
     static primaryKey = '_id';
