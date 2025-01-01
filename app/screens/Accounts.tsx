@@ -14,7 +14,7 @@ const Accounts = () => {
         return;
       }
 
-      realm.write(() => { return realm.create(Account, { name, description, balance, }); });
+      realm.write(() => { return realm.create(Account, { name, description, initialBalance: balance, }); });
     },
     [realm],
   );
