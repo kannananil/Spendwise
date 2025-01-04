@@ -9,12 +9,11 @@ const Accounts = () => {
   const realm = useRealm();
 
   const handleAddAccount = useCallback(
-    (name: string, description: string, balance: number): void => {
-      if (!description) {
-        return;
-      }
-
-      realm.write(() => { return realm.create(Account, { name, description, initialBalance: balance, }); });
+    (name: string, description: string, type: string, balance: number): void => {
+      console.log(name, description, type, balance);
+      
+      realm.write(() => { return realm.create("Account", { name, description, initialBalance: balance, type}); });
+      console.log('Account created');
     },
     [realm],
   );
@@ -23,6 +22,9 @@ const Accounts = () => {
     Account,
     collection => collection.filtered('active == true').sorted('name')
   );
+
+  console.log(accounts);
+  
   
   return (
     <View>

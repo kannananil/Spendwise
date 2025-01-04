@@ -1,38 +1,28 @@
 import React from 'react';
-import Realm from 'realm';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
+import { useRealm } from '@realm/react';
 
 import {shadows} from '../styles/shadows';
 import colors from '../styles/colors';
-import {Task} from '../models/Task';
+import {Transaction} from '../models/Transaction';
+import { Account } from '../models/Account';
 
 type TaskItemProps = {
-  task: Task & Realm.Object;
-  onToggleStatus: () => void;
-  onDelete: () => void;
+  transaction: Transaction & Realm.Object;
 };
 
-export const TaskItem = React.memo<TaskItemProps>(
-  ({task, onToggleStatus, onDelete}) => {
-    return (
-      <View style={styles.task}>
-        <Pressable
-          onPress={onToggleStatus}
-          style={[styles.status, task.isComplete && styles.completed]}>
-          <Text style={styles.icon}>{task.isComplete ? '✓' : '○'}</Text>
-        </Pressable>
-        <View style={styles.descriptionContainer}>
-          <Text numberOfLines={1} style={styles.description}>
-            {task.description}
-          </Text>
-        </View>
-        <Pressable onPress={onDelete} style={styles.deleteButton}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </Pressable>
+export const TransactionItem: React.FC<TaskItemProps> = (props) => {
+  
+  return (
+    <View style={styles.task}>
+      <View style={styles.descriptionContainer}>
+        <Text style={styles.description}> {props.transaction.description} </Text>
+        <Text style={styles.description}> {props.transaction.amount} </Text>
+        <Text style={styles.description}> {props.transaction.account.name} </Text>
       </View>
-    );
-  },
-);
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   task: {

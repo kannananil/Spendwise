@@ -11,19 +11,27 @@ import {
 import {buttonStyles} from '../styles/button';
 import colors from '../styles/colors';
 import {shadows} from '../styles/shadows';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 type AddAccountFormProps = {
-  onSubmit: (name: string, description: string, balance: number) => void;
+  onSubmit: (name: string, description: string, type: string, balance: number) => void;
 };
 
-export const AddAccountForm: React.FC<AddAccountFormProps> = ({onSubmit}) => {
+export const AddAccountForm: React.FC<AddAccountFormProps> = (props) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [balance, setBalance] = useState('');
+  const [accountTypeDropDownOpen, setAccountTypeDropDownOpen] = useState(false);
+  const [accountType, setAccountType] = useState(null);
+  const [accountTypes, setAccountTypes] = useState([
+    { label: 'Bank', value: 'bank' },
+    { label: 'Credit Card', value: 'credit-card' },
+    { label: 'Cash', value: 'cash' },
+  ]);
 
   const handleSubmit = () => {
     const parasedBalance = parseFloat(balance);
-    onSubmit(name, description, parasedBalance);
+    props.onSubmit(name, description, accountType, parasedBalance);
     setName('');
     setDescription('');
     setBalance('');
@@ -33,27 +41,36 @@ export const AddAccountForm: React.FC<AddAccountFormProps> = ({onSubmit}) => {
     <View style={styles.form}>
       <TextInput
         value={name}
-        placeholder="Enter account name"
+        placeholder='Enter account name'
         onChangeText={setName}
         autoCorrect={false}
-        autoCapitalize="none"
+        autoCapitalize='none'
         style={styles.textInput}
       />
       <TextInput
         value={description}
-        placeholder="Enter account description"
+        placeholder='Enter account description'
         onChangeText={setDescription}
         autoCorrect={false}
-        autoCapitalize="none"
+        autoCapitalize='none'
         style={styles.textInput}
       />
       <TextInput
         value={balance}
-        placeholder="Enter account initial balance"
+        placeholder='Enter account initial balance'
         onChangeText={setBalance}
         autoCorrect={false}
-        autoCapitalize="none"
+        autoCapitalize='none'
         style={styles.textInput}
+      />
+      <DropDownPicker
+        open={accountTypeDropDownOpen}
+        value={accountType}
+        items={accountTypes}
+        setOpen={setAccountTypeDropDownOpen}
+        setValue={setAccountType}
+        setItems={setAccountTypes}
+        placeholder='Select account type'
       />
       <Pressable onPress={handleSubmit} style={styles.submit}>
         <Text style={styles.icon}>＋</Text>

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 import { Realm } from "@realm/react";
 
 import { Account } from "../models/Account";
@@ -10,6 +10,13 @@ type AccountListProps = {
 };
 
 export const AccountList: React.FC<AccountListProps> = (props) => {
+  if(props.accounts.length == 0){
+    return (
+      <View style={styles.listContainer}>
+        <Text>No Accounts created yet</Text>
+      </View>
+    )
+  }
   return (
     <View style={styles.listContainer}>
       <FlatList
