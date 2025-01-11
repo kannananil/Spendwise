@@ -15,6 +15,7 @@ export const Home = () => {
     (type: string, account: Account & Realm.Object, description: string, amount: number): void => {
       console.log(type, account, description, amount);
       realm.write(() => { return realm.create("Transaction", { type, account, description, amount }); });
+      console.log('Transaction created');
     },
     [realm],
   );

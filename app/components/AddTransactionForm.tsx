@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,33 +6,39 @@ import {
   Pressable,
   Platform,
   StyleSheet,
-} from 'react-native';
+} from "react-native";
 
-import {buttonStyles} from '../styles/button';
-import colors from '../styles/colors';
-import {shadows} from '../styles/shadows';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { Account } from '../models/Account';
+import { buttonStyles } from "../styles/button";
+import colors from "../styles/colors";
+import { shadows } from "../styles/shadows";
+import DropDownPicker from "react-native-dropdown-picker";
+import { Account } from "../models/Account";
+import { Dropdown } from "./Dropdown";
 
 type AddATransactionFormProps = {
   accounts: Realm.Results<Account & Realm.Object>;
-  onSubmit: (type: string, account: Account & Realm.Object, description: string, amount: number) => void;
+  onSubmit: (
+    type: string,
+    account: Account & Realm.Object,
+    description: string,
+    amount: number
+  ) => void;
 };
 
-export const AddATransactionForm: React.FC<AddATransactionFormProps> = (props) => {
-  const [description, setDescription] = useState('');
-  const [amount, setAmount] = useState('');
-  const [transactionTypeDropDownOpen, setTransactionTypeDropDownOpen] = useState(false);
+export const AddATransactionForm: React.FC<AddATransactionFormProps> = (
+  props
+) => {
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
   const [transactionType, setTransactionType] = useState(null);
-  const [transactionTypes, setTransactionTypes] = useState([
-    { label: 'Expense', value: 'expense' },
-    { label: 'Income', value: 'income' },
-    { label: 'Transfer', value: 'transfer' },
-  ]);
+  const transactionTypes = [
+    { label: "Expense", value: "expense" },
+    { label: "Income", value: "income" },
+    { label: "Transfer", value: "transfer" },
+  ];
 
-  const [accountDropDownOpen, setAccountDropDownOpen] = useState(false);
-  const [selectedAccount, setSelectedAccount] = useState<Account & Realm.Object>(null);
-  const [accountItems, setAccountItems] = useState<{ label: string; value: Account & Realm.Object }[]>([]);
+  const [selectedAccount, setSelectedAccount] = useState< Account & Realm.Object >(null);
+  const [accountItems, setAccountItems] = useState< { label: string; value: Account & Realm.Object }[] >([]);
 
   useEffect(() => {
     const formattedAccounts = props.accounts.map((account) => ({
@@ -44,36 +50,33 @@ export const AddATransactionForm: React.FC<AddATransactionFormProps> = (props) =
 
   const handleSubmit = () => {
     const parasedAmount = parseFloat(amount);
-    console.log('Selectd account:', selectedAccount);
-    
-    props.onSubmit(transactionType, selectedAccount, description, parasedAmount);
-    setDescription('');
-    setAmount('');
+    console.log("Selectd account:", selectedAccount);
+
+    props.onSubmit(
+      transactionType,
+      selectedAccount,
+      description,
+      parasedAmount
+    );
+    setDescription("");
+    setAmount("");
   };
 
   return (
     <View style={styles.form}>
-      <DropDownPicker
-        open={transactionTypeDropDownOpen}
-        value={transactionType}
-        items={transactionTypes}
-        setOpen={setTransactionTypeDropDownOpen}
-        setValue={setTransactionType}
-        setItems={setTransactionTypes}
+      <Dropdown
+        options={transactionTypes}
+        onSelect={setTransactionType}
         placeholder="Select a transaction type"
       />
-      <DropDownPicker
-        open={accountDropDownOpen}
-        value={selectedAccount}
-        items={accountItems}
-        setOpen={setAccountDropDownOpen}
-        setValue={setSelectedAccount}
-        setItems={setAccountItems}
+      <Dropdown
+        options={accountItems}
+        onSelect={setSelectedAccount}
         placeholder="Select an account"
       />
       <TextInput
         value={description}
-        placeholder="Enter account description"
+        placeholder="Enter transaction description"
         onChangeText={setDescription}
         autoCorrect={false}
         autoCapitalize="none"
@@ -81,14 +84,14 @@ export const AddATransactionForm: React.FC<AddATransactionFormProps> = (props) =
       />
       <TextInput
         value={amount}
-        placeholder="Enter account initial balance"
+        placeholder="Enter transaction amount"
         onChangeText={setAmount}
         autoCorrect={false}
         autoCapitalize="none"
         style={styles.textInput}
       />
       <Pressable onPress={handleSubmit} style={styles.submit}>
-        <Text style={styles.icon}>＋</Text>
+        <Text style={styles.icon}>Add transaction</Text>
       </Pressable>
     </View>
   );
@@ -98,22 +101,20 @@ const styles = StyleSheet.create({
   form: {
     height: 50,
     marginBottom: 20,
-    // marginTop: 20,
-    flexDirection: 'column',
+    flexDirection: "column",
     ...shadows,
   },
   textInput: {
-    // flex: 1,
     paddingHorizontal: 15,
-    paddingVertical: Platform.OS === 'ios' ? 15 : 0,
+    paddingVertical: Platform.OS === "ios" ? 15 : 0,
     borderRadius: 5,
     backgroundColor: colors.white,
     fontSize: 17,
   },
   submit: {
     ...buttonStyles.button,
-    width: 50,
-    height: '100%',
+    width: 150,
+    height: "100%",
     paddingHorizontal: 0,
     paddingVertical: 0,
     marginLeft: 20,
