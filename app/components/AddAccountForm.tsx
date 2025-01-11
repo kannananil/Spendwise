@@ -11,7 +11,7 @@ import {
 import {buttonStyles} from '../styles/button';
 import colors from '../styles/colors';
 import {shadows} from '../styles/shadows';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { Dropdown } from './Dropdown';
 
 type AddAccountFormProps = {
   onSubmit: (name: string, description: string, type: string, balance: number) => void;
@@ -21,13 +21,12 @@ export const AddAccountForm: React.FC<AddAccountFormProps> = (props) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [balance, setBalance] = useState('');
-  const [accountTypeDropDownOpen, setAccountTypeDropDownOpen] = useState(false);
   const [accountType, setAccountType] = useState(null);
-  const [accountTypes, setAccountTypes] = useState([
+  const accountTypes = [
     { label: 'Bank', value: 'bank' },
     { label: 'Credit Card', value: 'credit-card' },
     { label: 'Cash', value: 'cash' },
-  ]);
+  ];
 
   const handleSubmit = () => {
     const parasedBalance = parseFloat(balance);
@@ -63,13 +62,9 @@ export const AddAccountForm: React.FC<AddAccountFormProps> = (props) => {
         autoCapitalize='none'
         style={styles.textInput}
       />
-      <DropDownPicker
-        open={accountTypeDropDownOpen}
-        value={accountType}
-        items={accountTypes}
-        setOpen={setAccountTypeDropDownOpen}
-        setValue={setAccountType}
-        setItems={setAccountTypes}
+      <Dropdown
+        options={accountTypes}
+        onSelect={setAccountType}
         placeholder='Select account type'
       />
       <Pressable onPress={handleSubmit} style={styles.submit}>
@@ -83,12 +78,10 @@ const styles = StyleSheet.create({
   form: {
     height: 50,
     marginBottom: 20,
-    // marginTop: 20,
     flexDirection: 'column',
     ...shadows,
   },
   textInput: {
-    // flex: 1,
     paddingHorizontal: 15,
     paddingVertical: Platform.OS === 'ios' ? 15 : 0,
     borderRadius: 5,

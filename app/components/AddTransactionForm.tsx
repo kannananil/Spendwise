@@ -4,14 +4,11 @@ import {
   Text,
   TextInput,
   Pressable,
-  Platform,
   StyleSheet,
 } from "react-native";
 
 import { buttonStyles } from "../styles/button";
-import colors from "../styles/colors";
 import { shadows } from "../styles/shadows";
-import DropDownPicker from "react-native-dropdown-picker";
 import { Account } from "../models/Account";
 import { Dropdown } from "./Dropdown";
 
