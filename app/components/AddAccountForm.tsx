@@ -68,7 +68,7 @@ export const AddAccountForm: React.FC<AddAccountFormProps> = (props) => {
         placeholder='Select account type'
       />
       <Pressable onPress={handleSubmit} style={styles.submit}>
-        <Text style={styles.icon}>＋</Text>
+        <Text style={styles.icon}>Add account</Text>
       </Pressable>
     </View>
   );
@@ -82,16 +82,19 @@ const styles = StyleSheet.create({
     ...shadows,
   },
   textInput: {
-    paddingHorizontal: 15,
-    paddingVertical: Platform.OS === 'ios' ? 15 : 0,
-    borderRadius: 5,
-    backgroundColor: colors.white,
-    fontSize: 17,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    backgroundColor: '#f9f9f9',
+    marginVertical: 3,
+    fontSize: 16,
+    color: '#333',
   },
   submit: {
     ...buttonStyles.button,
-    width: 50,
-    height: '100%',
+    width: 150,
+    height: "100%",
     paddingHorizontal: 0,
     paddingVertical: 0,
     marginLeft: 20,
