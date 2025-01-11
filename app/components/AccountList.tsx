@@ -1,15 +1,21 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import { Realm } from "@realm/react";
-
 import { Account } from "../models/Account";
 import { AccountItem } from "./AccountItem";
+import { useThemedStyles } from "../hooks/useThemedStyles";
 
 type AccountListProps = {
   accounts: Realm.Results<Account & Realm.Object>;
 };
 
 export const AccountList: React.FC<AccountListProps> = (props) => {
+    const styles = useThemedStyles((colors) => ({
+      listContainer: {
+        justifyContent: "center",
+      },
+    }));
+    
   if(props.accounts.length == 0){
     return (
       <View style={styles.listContainer}>
@@ -27,12 +33,5 @@ export const AccountList: React.FC<AccountListProps> = (props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  listContainer: {
-    // flex: 1,
-    justifyContent: "center",
-  },
-});
 
 export default AccountList;

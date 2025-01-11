@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, Pressable, } from "react-native";
 import { useTheme } from '../hooks/useTheme';
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  StyleSheet,
-} from "react-native";
-
 import { buttonStyles } from "../styles/button";
 import { shadows } from "../styles/shadows";
 import { Account } from "../models/Account";
 import { Dropdown } from "./Dropdown";
+import { useThemedStyles } from "../hooks/useThemedStyles";
 
-type AddATransactionFormProps = {
+type AddTransactionFormProps = {
   accounts: Realm.Results<Account & Realm.Object>;
   onSubmit: (
     type: string,
@@ -23,10 +17,43 @@ type AddATransactionFormProps = {
   ) => void;
 };
 
-export const AddATransactionForm: React.FC<AddATransactionFormProps> = (
-  props
-) => {
+export const AddTransactionForm: React.FC<AddTransactionFormProps> = (props) => {
   const { colors } = useTheme();
+
+  const styles = useThemedStyles((colors) => ({
+    form: {
+      height: 50,
+      marginBottom: 20,
+      flexDirection: "column",
+      backgroundColor: colors.background,
+      ...shadows,
+    },
+    textInput: {
+      padding: 12,
+      borderWidth: 1,
+      borderColor: colors.inputBorder,
+      borderRadius: 8,
+      backgroundColor: colors.inputBackground,
+      marginVertical: 3,
+      fontSize: 16,
+      color: colors.text,
+    },
+    submit: {
+      ...buttonStyles.button,
+      width: 150,
+      height: "100%",
+      paddingHorizontal: 0,
+      paddingVertical: 0,
+      marginLeft: 20,
+      marginRight: 0,
+      backgroundColor: colors.card,
+    },
+    button: {
+      ...buttonStyles.text,
+      color: colors.text,
+    },
+  }));
+
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [transactionType, setTransactionType] = useState(null);
@@ -62,7 +89,7 @@ export const AddATransactionForm: React.FC<AddATransactionFormProps> = (
   };
 
   return (
-    <View style={[styles.form, { backgroundColor: colors.background }]}>
+    <View style={styles.form}>
       <Dropdown
         options={transactionTypes}
         onSelect={setTransactionType}
@@ -80,11 +107,7 @@ export const AddATransactionForm: React.FC<AddATransactionFormProps> = (
         onChangeText={setDescription}
         autoCorrect={false}
         autoCapitalize="none"
-        style={[styles.textInput, {
-          backgroundColor: colors.inputBackground,
-          color: colors.text,
-          borderColor: colors.inputBorder
-        }]}
+        style={styles.textInput}
       />
       <TextInput
         value={amount}
@@ -93,46 +116,11 @@ export const AddATransactionForm: React.FC<AddATransactionFormProps> = (
         onChangeText={setAmount}
         autoCorrect={false}
         autoCapitalize="none"
-        style={[styles.textInput, {
-          backgroundColor: colors.inputBackground,
-          color: colors.text,
-          borderColor: colors.inputBorder
-        }]}
+        style={styles.textInput}
       />
-      <Pressable onPress={handleSubmit} style={[styles.submit, { backgroundColor: colors.card }]}>
-        <Text style={[styles.icon, { color: colors.text }]}>Add transaction</Text>
+      <Pressable onPress={handleSubmit} style={styles.submit}>
+        <Text style={styles.button}>Add transaction</Text>
       </Pressable>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  form: {
-    height: 50,
-    marginBottom: 20,
-    flexDirection: "column",
-    ...shadows,
-  },
-  textInput: {
-    padding: 12,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    backgroundColor: '#f9f9f9',
-    marginVertical: 3,
-    fontSize: 16,
-    color: '#333',
-  },
-  submit: {
-    ...buttonStyles.button,
-    width: 150,
-    height: "100%",
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    marginLeft: 20,
-    marginRight: 0,
-  },
-  icon: {
-    ...buttonStyles.text,
-  },
-});
