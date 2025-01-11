@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { useTheme } from '../hooks/useTheme';
 import {
   View,
   Text,
@@ -18,6 +19,7 @@ type AddAccountFormProps = {
 };
 
 export const AddAccountForm: React.FC<AddAccountFormProps> = (props) => {
+  const { colors } = useTheme();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [balance, setBalance] = useState('');
@@ -37,38 +39,53 @@ export const AddAccountForm: React.FC<AddAccountFormProps> = (props) => {
   };
 
   return (
-    <View style={styles.form}>
+    <View style={[styles.form, { backgroundColor: colors.background }]}>
       <TextInput
         value={name}
         placeholder='Enter account name'
+        placeholderTextColor={colors.inputText}
         onChangeText={setName}
         autoCorrect={false}
         autoCapitalize='none'
-        style={styles.textInput}
+        style={[styles.textInput, {
+          backgroundColor: colors.inputBackground,
+          color: colors.text,
+          borderColor: colors.inputBorder
+        }]}
       />
       <TextInput
         value={description}
         placeholder='Enter account description'
+        placeholderTextColor={colors.inputText}
         onChangeText={setDescription}
         autoCorrect={false}
         autoCapitalize='none'
-        style={styles.textInput}
+        style={[styles.textInput, {
+          backgroundColor: colors.inputBackground,
+          color: colors.text,
+          borderColor: colors.inputBorder
+        }]}
       />
       <TextInput
         value={balance}
         placeholder='Enter account initial balance'
+        placeholderTextColor={colors.inputText}
         onChangeText={setBalance}
         autoCorrect={false}
         autoCapitalize='none'
-        style={styles.textInput}
+        style={[styles.textInput, {
+          backgroundColor: colors.inputBackground,
+          color: colors.text,
+          borderColor: colors.inputBorder
+        }]}
       />
       <Dropdown
         options={accountTypes}
         onSelect={setAccountType}
         placeholder='Select account type'
       />
-      <Pressable onPress={handleSubmit} style={styles.submit}>
-        <Text style={styles.icon}>Add account</Text>
+      <Pressable onPress={handleSubmit} style={[styles.submit, { backgroundColor: colors.card }]}>
+        <Text style={[styles.icon, { color: colors.text }]}>Add account</Text>
       </Pressable>
     </View>
   );

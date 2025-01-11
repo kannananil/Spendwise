@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, FlatList, Modal } from 'react-native';
+import { useTheme } from '../hooks/useTheme';
 
 export const Dropdown = ({ options, placeholder, onSelect }) => {
+  const { colors } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -13,8 +15,14 @@ export const Dropdown = ({ options, placeholder, onSelect }) => {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => setIsOpen(!isOpen)} style={styles.trigger}>
-        <Text style={styles.triggerText}>
+      <Pressable 
+        onPress={() => setIsOpen(!isOpen)} 
+        style={[styles.trigger, { 
+          borderColor: colors.inputBorder,
+          backgroundColor: colors.inputBackground 
+        }]}
+      >
+        <Text style={[styles.triggerText, { color: colors.text }]}>
           {selectedItem ? selectedItem.label : placeholder || 'Select an option'}
         </Text>
       </Pressable>
@@ -22,13 +30,19 @@ export const Dropdown = ({ options, placeholder, onSelect }) => {
       {isOpen && (
         <Modal transparent animationType="fade">
           <Pressable style={styles.overlay} onPress={() => setIsOpen(false)} />
-          <View style={styles.dropdown}>
+          <View style={[styles.dropdown, { 
+            backgroundColor: colors.card,
+            borderColor: colors.border
+          }]}>
             <FlatList
               data={options}
               keyExtractor={(item) => item.value.toString()}
               renderItem={({ item }) => (
-                <Pressable onPress={() => handleSelect(item)} style={styles.option}>
-                  <Text style={styles.optionText}>{item.label}</Text>
+                <Pressable 
+                  onPress={() => handleSelect(item)} 
+                  style={[styles.option, { borderBottomColor: colors.border }]}
+                >
+                  <Text style={[styles.optionText, { color: colors.text }]}>{item.label}</Text>
                 </Pressable>
               )}
             />

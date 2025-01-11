@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, FlatList, StyleSheet} from 'react-native';
 import {Realm} from '@realm/react';
+import { useTheme } from '../hooks/useTheme';
 
 import {Transaction} from '../models/Transaction';
 import {TransactionItem} from './TransactionItem';
@@ -10,17 +11,18 @@ type TransactionListProps = {
 };
 
 export const TransactionList: React.FC<TransactionListProps> = (props) => {
+  const { colors } = useTheme();
   console.log(props.transactions);
   
   if(props.transactions.length == 0){
     return (
-      <View style={styles.listContainer}>
-        <Text>No Transactions created yet</Text>
+      <View style={[styles.listContainer, { backgroundColor: colors.background }]}>
+        <Text style={{ color: colors.text }}>No Transactions created yet</Text>
       </View>
     )
   }
   return (
-    <View style={styles.listContainer}>
+    <View style={[styles.listContainer, { backgroundColor: colors.background }]}>
       <FlatList
         data={props.transactions}
         keyExtractor={task => task._id.toString()}

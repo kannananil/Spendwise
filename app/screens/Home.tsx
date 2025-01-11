@@ -5,11 +5,14 @@ import { Transaction } from "../models/Transaction";
 import { useQuery, useRealm } from "@realm/react";
 import TransactionList from "../components/TransactionList";
 import { AddATransactionForm } from "../components/AddTransactionForm";
-import { View } from "react-native";
+import { View, StyleSheet, useColorScheme } from "react-native";
 import { Account } from "../models/Account";
+import { theme } from '../styles/theme';
 
 export const Home = () => {
   const realm = useRealm();
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
   
   const handleAddTransaction = useCallback(
     (type: string, account: Account & Realm.Object, description: string, amount: number): void => {
@@ -34,9 +37,21 @@ export const Home = () => {
   
 
   return (
-    <View>
+    <View style={[
+      styles.container,
+      { backgroundColor: isDarkMode ? theme.dark.background : theme.light.background }
+    ]}>
       <TransactionList transactions={transactions} />
       <AddATransactionForm accounts={accounts} onSubmit={handleAddTransaction} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  darkContainer: {
+    backgroundColor: 'black',
+  },
+});

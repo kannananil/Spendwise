@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTheme } from '../hooks/useTheme';
 import {
   View,
   Text,
@@ -25,6 +26,7 @@ type AddATransactionFormProps = {
 export const AddATransactionForm: React.FC<AddATransactionFormProps> = (
   props
 ) => {
+  const { colors } = useTheme();
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [transactionType, setTransactionType] = useState(null);
@@ -60,7 +62,7 @@ export const AddATransactionForm: React.FC<AddATransactionFormProps> = (
   };
 
   return (
-    <View style={styles.form}>
+    <View style={[styles.form, { backgroundColor: colors.background }]}>
       <Dropdown
         options={transactionTypes}
         onSelect={setTransactionType}
@@ -74,21 +76,31 @@ export const AddATransactionForm: React.FC<AddATransactionFormProps> = (
       <TextInput
         value={description}
         placeholder="Enter transaction description"
+        placeholderTextColor={colors.inputText}
         onChangeText={setDescription}
         autoCorrect={false}
         autoCapitalize="none"
-        style={styles.textInput}
+        style={[styles.textInput, {
+          backgroundColor: colors.inputBackground,
+          color: colors.text,
+          borderColor: colors.inputBorder
+        }]}
       />
       <TextInput
         value={amount}
         placeholder="Enter transaction amount"
+        placeholderTextColor={colors.inputText}
         onChangeText={setAmount}
         autoCorrect={false}
         autoCapitalize="none"
-        style={styles.textInput}
+        style={[styles.textInput, {
+          backgroundColor: colors.inputBackground,
+          color: colors.text,
+          borderColor: colors.inputBorder
+        }]}
       />
-      <Pressable onPress={handleSubmit} style={styles.submit}>
-        <Text style={styles.icon}>Add transaction</Text>
+      <Pressable onPress={handleSubmit} style={[styles.submit, { backgroundColor: colors.card }]}>
+        <Text style={[styles.icon, { color: colors.text }]}>Add transaction</Text>
       </Pressable>
     </View>
   );
