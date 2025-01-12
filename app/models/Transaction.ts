@@ -1,10 +1,7 @@
-import { Obj } from './../../node_modules/reselect/es/types.d';
-import { ObjectId } from './../../node_modules/bson/src/objectid';
 import Realm, { BSON, Types } from 'realm';
 import { Account } from './Account';
 import { Category } from './Category';
 import { Subcategory } from './SubCategory';
-import { Tag } from './Tag';
 
 export class Transaction extends Realm.Object {
   _id: BSON.ObjectId;

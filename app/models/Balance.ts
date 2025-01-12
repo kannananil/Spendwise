@@ -1,7 +1,4 @@
-import { Obj } from './../../node_modules/reselect/es/types.d';
 import Realm, { BSON, Types } from "realm";
-import { Account } from "./Account";
-import { Transaction } from "./Transaction";
 
 export class Balance extends Realm.Object {
   _id: BSON.ObjectId = new BSON.ObjectId();
