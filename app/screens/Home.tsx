@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, Text } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useQuery, useRealm } from "@realm/react";
 import { useThemedStyles } from '../hooks/useThemedStyles';
@@ -81,6 +81,31 @@ export const Home = () => {
     (collection) => collection.sorted("date")
   );
 
+  const groupedTransactions: Record<string, Transaction[]> = {};
+
+  transactions.forEach((transaction) => {
+    const dateKey = transaction.date.toISOString().split("T")[0];
+    if (!groupedTransactions[dateKey]) {
+      groupedTransactions[dateKey] = [];
+    }
+    groupedTransactions[dateKey].push(transaction);
+  });
+
+  const TranscationLists = () => {
+    return (
+      <View>
+        {Object.keys(groupedTransactions).map((dateKey) => {
+          return (
+            <View key={dateKey}>
+              <TransactionList title={dateKey} transactions={groupedTransactions[dateKey]} />
+            </View>
+          );
+        })}
+      </View>
+    )
+  }
+  
+
   const accounts = useQuery(
     Account,
     (collection) => collection.filtered('active =  true').sorted('name')
@@ -100,7 +125,7 @@ export const Home = () => {
         isAddTransactionFormVisible
         ? <AddTransactionForm accounts={accounts} onSubmit={handleAddTransaction} onCancel={onCancel}/>
         : <View>
-            <TransactionList transactions={transactions} />
+            <TranscationLists />
             <TouchableOpacity style={styles.floatingButton} onPress={() => handleAddTransactionButtonPress()} >
               <Icon name='add' size={30} color='white' style={styles.floatingButtonIcon} />
             </TouchableOpacity>
