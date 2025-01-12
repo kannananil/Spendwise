@@ -9,12 +9,8 @@ import { useThemedStyles } from "../hooks/useThemedStyles";
 
 type AddTransactionFormProps = {
   accounts: Realm.Results<Account & Realm.Object>;
-  onSubmit: (
-    type: string,
-    account: Account & Realm.Object,
-    description: string,
-    amount: number
-  ) => void;
+  onSubmit: (type: string, account: Account & Realm.Object, description: string, amount: number) => void;
+  onCancel: () => void;
 };
 
 export const AddTransactionForm: React.FC<AddTransactionFormProps> = (props) => {
@@ -40,13 +36,17 @@ export const AddTransactionForm: React.FC<AddTransactionFormProps> = (props) => 
     },
     submit: {
       ...buttonStyles.button,
-      width: 150,
+      width: 100,
       height: "100%",
       paddingHorizontal: 0,
       paddingVertical: 0,
-      marginLeft: 20,
-      marginRight: 0,
       backgroundColor: colors.card,
+    },
+    buttonWrapper: {
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      margin: 0,
+      margingTop: 20,
     },
     button: {
       ...buttonStyles.text,
@@ -76,7 +76,6 @@ export const AddTransactionForm: React.FC<AddTransactionFormProps> = (props) => 
 
   const handleSubmit = () => {
     const parasedAmount = parseFloat(amount);
-    console.log("Selectd account:", selectedAccount);
 
     props.onSubmit(
       transactionType,
@@ -87,6 +86,12 @@ export const AddTransactionForm: React.FC<AddTransactionFormProps> = (props) => 
     setDescription("");
     setAmount("");
   };
+
+  const handleCancel = () => {
+    setDescription("");
+    setAmount("");
+    props.onCancel();
+  }
 
   return (
     <View style={styles.form}>
@@ -118,9 +123,14 @@ export const AddTransactionForm: React.FC<AddTransactionFormProps> = (props) => 
         autoCapitalize="none"
         style={styles.textInput}
       />
-      <Pressable onPress={handleSubmit} style={styles.submit}>
-        <Text style={styles.button}>Add transaction</Text>
-      </Pressable>
+      <View style={styles.buttonWrapper}>
+        <Pressable onPress={handleSubmit} style={styles.submit}>
+          <Text style={styles.button}>Done</Text>
+        </Pressable>
+        <Pressable onPress={handleCancel} style={styles.submit}>
+          <Text style={styles.button}>Cancel</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
